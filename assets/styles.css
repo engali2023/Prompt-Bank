@@ -142,6 +142,18 @@ select {
   color: inherit;
 }
 
+/* Native select menus do not inherit the page background consistently in Chrome. */
+select,
+select option {
+  background-color: var(--panel);
+  color: var(--text-primary);
+}
+
+select option:checked {
+  background-color: var(--accent);
+  color: #fff;
+}
+
 /* Auth */
 .auth-shell {
   display: grid;
