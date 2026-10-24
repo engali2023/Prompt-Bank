@@ -4,19 +4,31 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#f7f6f3" />
-    <meta name="description" content="Prompt Bank — بنك برومبتاتك الذهبية. نظّم، قيّم، واحفظ نتائجك الناجحة في مساحة خاصة وآمنة." />
+    <meta
+      name="description"
+      content="Prompt Bank — بنك برومبتاتك الذهبية. نظّم، قيّم، واحفظ نتائجك الناجحة في مساحة خاصة وآمنة."
+    />
     <title>Prompt Bank — بنك البرومبتات</title>
 
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%237c5cff'/%3E%3Cstop offset='1' stop-color='%23b69cff'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='18' fill='url(%23g)'/%3E%3Cpath d='M32 12l4.7 15.3L52 32l-15.3 4.7L32 52l-4.7-15.3L12 32l15.3-4.7z' fill='white'/%3E%3C/svg%3E" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%237c5cff'/%3E%3Cstop offset='1' stop-color='%23b69cff'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='18' fill='url(%23g)'/%3E%3Cpath d='M32 12l4.7 15.3L52 32l-15.3 4.7L32 52l-4.7-15.3L12 32l15.3-4.7z' fill='white'/%3E%3C/svg%3E"
+    />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
 
     <script>
       try {
         const savedTheme = localStorage.getItem('promptbank.theme.v1');
-        if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        if (
+          savedTheme === 'dark' ||
+          (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)
+        ) {
           document.documentElement.classList.add('dark');
         }
       } catch (error) {}
@@ -86,15 +98,25 @@
       <symbol id="i-folder-plus" viewBox="0 0 24 24"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/><path d="M12 10v6M9 13h6"/></symbol>
     </svg>
 
-    <!-- AUTH SCREEN -->
-    <div id="authScreen" class="auth-shell" hidden>
+    <!-- AUTH SCREEN - مرئية افتراضيًا بدون hidden -->
+    <div id="authScreen" class="auth-shell">
       <section class="auth-form-side">
-        <button class="icon-btn auth-theme" type="button" data-action="toggle-theme" aria-label="تبديل المظهر" data-theme-toggle></button>
+        <button
+          class="icon-btn auth-theme"
+          type="button"
+          data-action="toggle-theme"
+          aria-label="تبديل المظهر"
+          data-theme-toggle
+        ></button>
 
         <div class="auth-form-wrap">
           <div class="auth-brand brand">
-            <span class="brand-mark"><svg class="icon"><use href="#i-sparkles"></use></svg></span>
-            <span class="brand-text"><strong>Prompt Bank</strong><small>بنك البرومبتات</small></span>
+            <span class="brand-mark"
+              ><svg class="icon"><use href="#i-sparkles"></use></svg></span
+            >
+            <span class="brand-text"
+              ><strong>Prompt Bank</strong><small>بنك البرومبتات</small></span
+            >
           </div>
 
           <div class="auth-heading">
@@ -105,64 +127,146 @@
 
           <div class="auth-card">
             <div class="auth-tabs" role="tablist" aria-label="الدخول أو إنشاء حساب">
-              <button type="button" class="auth-tab active" role="tab" aria-selected="true" data-action="auth-tab" data-mode="login">تسجيل الدخول</button>
-              <button type="button" class="auth-tab" role="tab" aria-selected="false" data-action="auth-tab" data-mode="register">حساب جديد</button>
+              <button
+                type="button"
+                class="auth-tab active"
+                role="tab"
+                aria-selected="true"
+                data-action="auth-tab"
+                data-mode="login"
+              >
+                تسجيل الدخول
+              </button>
+              <button
+                type="button"
+                class="auth-tab"
+                role="tab"
+                aria-selected="false"
+                data-action="auth-tab"
+                data-mode="register"
+              >
+                حساب جديد
+              </button>
             </div>
 
             <form id="authForm" novalidate>
               <div class="field-group" id="authNameGroup" hidden>
                 <label class="field-label" for="authName">الاسم</label>
                 <div class="field-control">
-                  <span class="field-icon"><svg class="icon"><use href="#i-user"></use></svg></span>
-                  <input class="field-input" id="authName" name="name" type="text" autocomplete="name" placeholder="مثال: نورة العبدالله" maxlength="60" />
+                  <span class="field-icon"
+                    ><svg class="icon"><use href="#i-user"></use></svg></span
+                  >
+                  <input
+                    class="field-input"
+                    id="authName"
+                    name="name"
+                    type="text"
+                    autocomplete="name"
+                    placeholder="مثال: نورة العبدالله"
+                    maxlength="60"
+                  />
                 </div>
               </div>
 
               <div class="field-group">
                 <label class="field-label" for="authEmail">البريد الإلكتروني</label>
                 <div class="field-control">
-                  <span class="field-icon"><svg class="icon"><use href="#i-mail"></use></svg></span>
-                  <input class="field-input" id="authEmail" name="email" type="email" inputmode="email" autocomplete="email" placeholder="name@example.com" required />
+                  <span class="field-icon"
+                    ><svg class="icon"><use href="#i-mail"></use></svg></span
+                  >
+                  <input
+                    class="field-input"
+                    id="authEmail"
+                    name="email"
+                    type="email"
+                    inputmode="email"
+                    autocomplete="email"
+                    placeholder="name@example.com"
+                    required
+                  />
                 </div>
               </div>
 
               <div class="field-group">
                 <div class="field-label-row">
                   <label class="field-label" for="authPassword">كلمة المرور</label>
-                  <span class="field-hint" id="passwordHint" hidden>8 أحرف على الأقل</span>
+                  <span class="field-hint" id="passwordHint" hidden>
+                    8 أحرف على الأقل
+                  </span>
                 </div>
                 <div class="field-control">
-                  <span class="field-icon"><svg class="icon"><use href="#i-lock"></use></svg></span>
-                  <input class="field-input" id="authPassword" name="password" type="password" autocomplete="current-password" placeholder="••••••••" required minlength="8" />
-                  <button type="button" class="field-action" data-action="toggle-password" aria-label="إظهار كلمة المرور"><svg class="icon"><use href="#i-eye"></use></svg></button>
+                  <span class="field-icon"
+                    ><svg class="icon"><use href="#i-lock"></use></svg></span
+                  >
+                  <input
+                    class="field-input"
+                    id="authPassword"
+                    name="password"
+                    type="password"
+                    autocomplete="current-password"
+                    placeholder="••••••••"
+                    required
+                    minlength="8"
+                  />
+                  <button
+                    type="button"
+                    class="field-action"
+                    data-action="toggle-password"
+                    aria-label="إظهار كلمة المرور"
+                  >
+                    <svg class="icon"><use href="#i-eye"></use></svg>
+                  </button>
                 </div>
               </div>
 
-              <div id="authError" class="form-alert" role="alert" hidden>
+              <div
+                id="authError"
+                class="form-alert"
+                role="alert"
+                hidden
+              >
                 <svg class="icon"><use href="#i-alert"></use></svg>
                 <span id="authErrorText"></span>
               </div>
 
-              <button type="submit" class="btn btn-primary btn-block btn-lg" id="authSubmit">
+              <button
+                type="submit"
+                class="btn btn-primary btn-block btn-lg"
+                id="authSubmit"
+              >
                 <span id="authSubmitLabel">تسجيل الدخول</span>
                 <svg class="icon btn-spinner" id="authSpinner" hidden><use href="#i-loader"></use></svg>
               </button>
 
-              <p class="auth-terms" id="authTerms" hidden>بإنشاء حسابك، أنت توافق على أن تبقى بياناتك محفوظة بشكل آمن.</p>
+              <p class="auth-terms" id="authTerms" hidden>
+                بإنشاء حسابك، أنت توافق على أن تبقى بياناتك محفوظة بشكل آمن.
+              </p>
             </form>
 
             <div class="auth-divider"><span>أو</span></div>
 
-            <button type="button" class="btn btn-secondary btn-block demo-btn" data-action="demo-login">
+            <button
+              type="button"
+              class="btn btn-secondary btn-block demo-btn"
+              data-action="demo-login"
+            >
               <svg class="icon"><use href="#i-sparkles"></use></svg>
               <span>استكشف بحساب تجريبي</span>
               <span class="demo-badge">جاهز فوراً</span>
             </button>
           </div>
 
-          <p class="auth-switch" id="authSwitch">ليس لديك بنك بعد؟ <button type="button" data-action="auth-tab" data-mode="register">أنشئ حسابك المجاني</button></p>
+          <p class="auth-switch" id="authSwitch">
+            ليس لديك بنك بعد؟
+            <button type="button" data-action="auth-tab" data-mode="register">
+              أنشئ حسابك المجاني
+            </button>
+          </p>
 
-          <div class="auth-security"><svg class="icon"><use href="#i-shield"></use></svg><span>مشفّر وآمن — بياناتك محمية بكلمة مرور خاصة بك.</span></div>
+          <div class="auth-security">
+            <svg class="icon"><use href="#i-shield"></use></svg>
+            <span>مشفّر وآمن — بياناتك محمية بكلمة مرور خاصة بك.</span>
+          </div>
         </div>
       </section>
 
@@ -199,7 +303,10 @@
               <div class="preview-main">
                 <div class="preview-kicker">الأكثر استخداماً</div>
                 <div class="preview-card">
-                  <div class="preview-card-top"><span class="preview-platform claude">Claude</span><span class="preview-pin"><svg class="icon"><use href="#i-pin"></use></svg></span></div>
+                  <div class="preview-card-top">
+                    <span class="preview-platform claude">Claude</span>
+                    <span class="preview-pin"><svg class="icon"><use href="#i-pin"></use></svg></span>
+                  </div>
                   <h3>محرر المحتوى الصارم</h3>
                   <p>أنت محرر محتوى عربي محترف، لديك حساسية عالية تجاه الأسلوب والوضوح...</p>
                   <div class="preview-tags"><span>تحرير</span><span>كتابة</span><span>+2</span></div>
@@ -233,7 +340,7 @@
       </section>
     </div>
 
-    <!-- APP SHELL -->
+    <!-- APP SCREEN - مخفي افتراضيًا -->
     <div id="app" class="app-shell" hidden>
       <div class="sidebar-backdrop" id="sidebarBackdrop" data-action="close-sidebar"></div>
 
