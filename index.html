@@ -4,32 +4,19 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#f7f6f3" />
-    <meta
-      name="description"
-      content="Prompt Bank — بنك برومبتاتك الذهبية. نظّم، قيّم، واحفظ نتائجك الناجحة في مساحة خاصة وآمنة."
-    />
+    <meta name="description" content="Prompt Bank — بنك برومبتاتك الذهبية. نظّم، قيّم، واحفظ نتائجك الناجحة في مساحة خاصة وآمنة." />
     <title>Prompt Bank — بنك البرومبتات</title>
 
-    <link
-      rel="icon"
-      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%237c5cff'/%3E%3Cstop offset='1' stop-color='%23b69cff'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='18' fill='url(%23g)'/%3E%3Cpath d='M32 12l4.7 15.3L52 32l-15.3 4.7L32 52l-4.7-15.3L12 32l15.3-4.7z' fill='white'/%3E%3C/svg%3E"
-    />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%237c5cff'/%3E%3Cstop offset='1' stop-color='%23b69cff'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='18' fill='url(%23g)'/%3E%3Cpath d='M32 12l4.7 15.3L52 32l-15.3 4.7L32 52l-4.7-15.3L12 32l15.3-4.7z' fill='white'/%3E%3C/svg%3E" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
 
     <script>
       try {
         const savedTheme = localStorage.getItem('promptbank.theme.v1');
-        if (
-          savedTheme === 'dark' ||
-          (!savedTheme &&
-            window.matchMedia('(prefers-color-scheme: dark)').matches)
-        ) {
+        if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
           document.documentElement.classList.add('dark');
         }
       } catch (error) {}
@@ -55,186 +42,59 @@
     <a href="#mainContent" class="skip-link">تخطَّ إلى المحتوى</a>
 
     <svg xmlns="http://www.w3.org/2000/svg" class="svg-sprite" aria-hidden="true">
-      <symbol id="i-sparkles" viewBox="0 0 24 24">
-        <path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/>
-        <path d="M5 3v4"/>
-        <path d="M3 5h4"/>
-        <path d="M19 17v4"/>
-        <path d="M17 19h4"/>
-      </symbol>
-      <symbol id="i-dashboard" viewBox="0 0 24 24">
-        <rect width="7" height="9" x="3" y="3" rx="1.5"/>
-        <rect width="7" height="5" x="14" y="3" rx="1.5"/>
-        <rect width="7" height="9" x="14" y="12" rx="1.5"/>
-        <rect width="7" height="5" x="3" y="16" rx="1.5"/>
-      </symbol>
-      <symbol id="i-library" viewBox="0 0 24 24">
-        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
-        <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
-      </symbol>
-      <symbol id="i-folder" viewBox="0 0 24 24">
-        <path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/>
-      </symbol>
-      <symbol id="i-award" viewBox="0 0 24 24">
-        <circle cx="12" cy="8" r="6"/>
-        <path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/>
-      </symbol>
-      <symbol id="i-circle-check" viewBox="0 0 24 24">
-        <circle cx="12" cy="12" r="10"/>
-        <path d="m9 12 2 2 4-4"/>
-      </symbol>
-      <symbol id="i-plus" viewBox="0 0 24 24">
-        <path d="M12 5v14M5 12h14"/>
-      </symbol>
-      <symbol id="i-search" viewBox="0 0 24 24">
-        <circle cx="11" cy="11" r="8"/>
-        <path d="m21 21-4.35-4.35"/>
-      </symbol>
-      <symbol id="i-sun" viewBox="0 0 24 24">
-        <circle cx="12" cy="12" r="4"/>
-        <path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
-      </symbol>
-      <symbol id="i-moon" viewBox="0 0 24 24">
-        <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
-      </symbol>
-      <symbol id="i-menu" viewBox="0 0 24 24">
-        <path d="M4 6h16M4 12h16M4 18h16"/>
-      </symbol>
-      <symbol id="i-x" viewBox="0 0 24 24">
-        <path d="M18 6 6 18M6 6l12 12"/>
-      </symbol>
-      <symbol id="i-chevron-down" viewBox="0 0 24 24">
-        <path d="m6 9 6 6 6-6"/>
-      </symbol>
-      <symbol id="i-chevron-left" viewBox="0 0 24 24">
-        <path d="m15 18-6-6 6-6"/>
-      </symbol>
-      <symbol id="i-arrow-left" viewBox="0 0 24 24">
-        <path d="M19 12H5M12 19l-7-7 7-7"/>
-      </symbol>
-      <symbol id="i-arrow-up-right" viewBox="0 0 24 24">
-        <path d="M7 17 17 7M7 7h10v10"/>
-      </symbol>
-      <symbol id="i-copy" viewBox="0 0 24 24">
-        <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
-        <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
-      </symbol>
-      <symbol id="i-pin" viewBox="0 0 24 24">
-        <path d="M9 10.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24V16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V7a1 1 0 0 1 1-1 2 2 0 0 0 0-4H8a2 2 0 0 0 0 4 1 1 0 0 1 1 1z"/>
-        <path d="M12 17v5"/>
-      </symbol>
-      <symbol id="i-pencil" viewBox="0 0 24 24">
-        <path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/>
-        <path d="m15 5 4 4"/>
-      </symbol>
-      <symbol id="i-trash" viewBox="0 0 24 24">
-        <path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
-        <path d="M10 11v6M14 11v6"/>
-      </symbol>
-      <symbol id="i-star" viewBox="0 0 24 24">
-        <path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/>
-      </symbol>
-      <symbol id="i-log-out" viewBox="0 0 24 24">
-        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/>
-      </symbol>
-      <symbol id="i-clock" viewBox="0 0 24 24">
-        <circle cx="12" cy="12" r="10"/>
-        <path d="M12 6v6l4 2"/>
-      </symbol>
-      <symbol id="i-tag" viewBox="0 0 24 24">
-        <path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"/>
-        <circle cx="7.5" cy="7.5" r=".5" fill="currentColor"/>
-      </symbol>
-      <symbol id="i-bar-chart" viewBox="0 0 24 24">
-        <path d="M12 20V10M18 20V4M6 20v-4"/>
-      </symbol>
-      <symbol id="i-trending" viewBox="0 0 24 24">
-        <path d="m3 17 6-6 4 4 8-8"/>
-        <path d="M14 7h7v7"/>
-      </symbol>
-      <symbol id="i-check" viewBox="0 0 24 24">
-        <path d="m20 6-11 11-5-5"/>
-      </symbol>
-      <symbol id="i-mail" viewBox="0 0 24 24">
-        <rect width="20" height="16" x="2" y="4" rx="2"/>
-        <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
-      </symbol>
-      <symbol id="i-lock" viewBox="0 0 24 24">
-        <rect width="18" height="11" x="3" y="11" rx="2"/>
-        <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-      </symbol>
-      <symbol id="i-user" viewBox="0 0 24 24">
-        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-        <circle cx="12" cy="7" r="4"/>
-      </symbol>
-      <symbol id="i-shield" viewBox="0 0 24 24">
-        <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/>
-        <path d="m9 12 2 2 4-4"/>
-      </symbol>
-      <symbol id="i-eye" viewBox="0 0 24 24">
-        <path d="M2.06 12.35a1 1 0 0 1 0-.7 10.75 10.75 0 0 1 19.88 0 1 1 0 0 1 0 .7 10.75 10.75 0 0 1-19.88 0Z"/>
-        <circle cx="12" cy="12" r="3"/>
-      </symbol>
-      <symbol id="i-eye-off" viewBox="0 0 24 24">
-        <path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68M6.61 6.61A13.5 13.5 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61M2 2l20 20M9.88 9.88a3 3 0 1 0 4.24 4.24"/>
-      </symbol>
-      <symbol id="i-database" viewBox="0 0 24 24">
-        <ellipse cx="12" cy="5" rx="9" ry="3"/>
-        <path d="M3 5v14a9 3 0 0 0 18 0V5"/>
-        <path d="M3 12a9 3 0 0 0 18 0"/>
-      </symbol>
-      <symbol id="i-info" viewBox="0 0 24 24">
-        <circle cx="12" cy="12" r="10"/>
-        <path d="M12 16v-4M12 8h.01"/>
-      </symbol>
-      <symbol id="i-alert" viewBox="0 0 24 24">
-        <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/>
-        <path d="M12 9v4M12 17h.01"/>
-      </symbol>
-      <symbol id="i-layers" viewBox="0 0 24 24">
-        <path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/>
-        <path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65M22 12.65l-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/>
-      </symbol>
-      <symbol id="i-file-text" viewBox="0 0 24 24">
-        <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/>
-        <path d="M14 2v4a2 2 0 0 0 2 2h4M10 9H8M16 13H8M16 17H8"/>
-      </symbol>
-      <symbol id="i-quote" viewBox="0 0 24 24">
-        <path d="M16 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2v2a3 3 0 0 1-3 3 1 1 0 1 0 0 2 5 5 0 0 0 5-5V5a2 2 0 0 0-2-2zM5 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2v2a3 3 0 0 1-3 3 1 1 0 1 0 0 2 5 5 0 0 0 5-5V5a2 2 0 0 0-2-2z"/>
-      </symbol>
-      <symbol id="i-more" viewBox="0 0 24 24">
-        <circle cx="12" cy="12" r="1"/>
-        <circle cx="19" cy="12" r="1"/>
-        <circle cx="5" cy="12" r="1"/>
-      </symbol>
-      <symbol id="i-loader" viewBox="0 0 24 24">
-        <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
-      </symbol>
-      <symbol id="i-folder-plus" viewBox="0 0 24 24">
-        <path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/>
-        <path d="M12 10v6M9 13h6"/>
-      </symbol>
+      <symbol id="i-sparkles" viewBox="0 0 24 24"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/><path d="M5 3v4"/><path d="M3 5h4"/><path d="M19 17v4"/><path d="M17 19h4"/></symbol>
+      <symbol id="i-dashboard" viewBox="0 0 24 24"><rect width="7" height="9" x="3" y="3" rx="1.5"/><rect width="7" height="5" x="14" y="3" rx="1.5"/><rect width="7" height="9" x="14" y="12" rx="1.5"/><rect width="7" height="5" x="3" y="16" rx="1.5"/></symbol>
+      <symbol id="i-library" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></symbol>
+      <symbol id="i-folder" viewBox="0 0 24 24"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></symbol>
+      <symbol id="i-award" viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></symbol>
+      <symbol id="i-circle-check" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></symbol>
+      <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+      <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></symbol>
+      <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></symbol>
+      <symbol id="i-moon" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></symbol>
+      <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></symbol>
+      <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+      <symbol id="i-chevron-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+      <symbol id="i-chevron-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
+      <symbol id="i-arrow-left" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></symbol>
+      <symbol id="i-arrow-up-right" viewBox="0 0 24 24"><path d="M7 17 17 7M7 7h10v10"/></symbol>
+      <symbol id="i-copy" viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></symbol>
+      <symbol id="i-pin" viewBox="0 0 24 24"><path d="M9 10.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24V16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V7a1 1 0 0 1 1-1 2 2 0 0 0 0-4H8a2 2 0 0 0 0 4 1 1 0 0 1 1 1z"/><path d="M12 17v5"/></symbol>
+      <symbol id="i-pencil" viewBox="0 0 24 24"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></symbol>
+      <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M10 11v6M14 11v6"/></symbol>
+      <symbol id="i-star" viewBox="0 0 24 24"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/></symbol>
+      <symbol id="i-log-out" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></symbol>
+      <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+      <symbol id="i-tag" viewBox="0 0 24 24"><path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"/><circle cx="7.5" cy="7.5" r=".5" fill="currentColor"/></symbol>
+      <symbol id="i-bar-chart" viewBox="0 0 24 24"><path d="M12 20V10M18 20V4M6 20v-4"/></symbol>
+      <symbol id="i-trending" viewBox="0 0 24 24"><path d="m3 17 6-6 4 4 8-8"/><path d="M14 7h7v7"/></symbol>
+      <symbol id="i-check" viewBox="0 0 24 24"><path d="m20 6-11 11-5-5"/></symbol>
+      <symbol id="i-mail" viewBox="0 0 24 24"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></symbol>
+      <symbol id="i-lock" viewBox="0 0 24 24"><rect width="18" height="11" x="3" y="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
+      <symbol id="i-user" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+      <symbol id="i-shield" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></symbol>
+      <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2.06 12.35a1 1 0 0 1 0-.7 10.75 10.75 0 0 1 19.88 0 1 1 0 0 1 0 .7 10.75 10.75 0 0 1-19.88 0Z"/><circle cx="12" cy="12" r="3"/></symbol>
+      <symbol id="i-eye-off" viewBox="0 0 24 24"><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68M6.61 6.61A13.5 13.5 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61M2 2l20 20M9.88 9.88a3 3 0 1 0 4.24 4.24"/></symbol>
+      <symbol id="i-database" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/></symbol>
+      <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></symbol>
+      <symbol id="i-alert" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4M12 17h.01"/></symbol>
+      <symbol id="i-layers" viewBox="0 0 24 24"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65M22 12.65l-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/></symbol>
+      <symbol id="i-file-text" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4M10 9H8M16 13H8M16 17H8"/></symbol>
+      <symbol id="i-quote" viewBox="0 0 24 24"><path d="M16 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2v2a3 3 0 0 1-3 3 1 1 0 1 0 0 2 5 5 0 0 0 5-5V5a2 2 0 0 0-2-2zM5 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2v2a3 3 0 0 1-3 3 1 1 0 1 0 0 2 5 5 0 0 0 5-5V5a2 2 0 0 0-2-2z"/></symbol>
+      <symbol id="i-more" viewBox="0 0 24 24"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></symbol>
+      <symbol id="i-loader" viewBox="0 0 24 24"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></symbol>
+      <symbol id="i-folder-plus" viewBox="0 0 24 24"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/><path d="M12 10v6M9 13h6"/></symbol>
     </svg>
 
-    <!-- ===================== AUTH ===================== -->
+    <!-- AUTH SCREEN -->
     <div id="authScreen" class="auth-shell" hidden>
       <section class="auth-form-side">
-        <button
-          class="icon-btn auth-theme"
-          type="button"
-          data-action="toggle-theme"
-          aria-label="تبديل المظهر"
-          data-theme-toggle
-        ></button>
+        <button class="icon-btn auth-theme" type="button" data-action="toggle-theme" aria-label="تبديل المظهر" data-theme-toggle></button>
 
         <div class="auth-form-wrap">
           <div class="auth-brand brand">
-            <span class="brand-mark"
-              ><svg class="icon"><use href="#i-sparkles"></use></svg></span
-            >
-            <span class="brand-text"
-              ><strong>Prompt Bank</strong><small>بنك البرومبتات</small></span
-            >
+            <span class="brand-mark"><svg class="icon"><use href="#i-sparkles"></use></svg></span>
+            <span class="brand-text"><strong>Prompt Bank</strong><small>بنك البرومبتات</small></span>
           </div>
 
           <div class="auth-heading">
@@ -245,146 +105,64 @@
 
           <div class="auth-card">
             <div class="auth-tabs" role="tablist" aria-label="الدخول أو إنشاء حساب">
-              <button
-                type="button"
-                class="auth-tab active"
-                role="tab"
-                aria-selected="true"
-                data-action="auth-tab"
-                data-mode="login"
-              >
-                تسجيل الدخول
-              </button>
-              <button
-                type="button"
-                class="auth-tab"
-                role="tab"
-                aria-selected="false"
-                data-action="auth-tab"
-                data-mode="register"
-              >
-                حساب جديد
-              </button>
+              <button type="button" class="auth-tab active" role="tab" aria-selected="true" data-action="auth-tab" data-mode="login">تسجيل الدخول</button>
+              <button type="button" class="auth-tab" role="tab" aria-selected="false" data-action="auth-tab" data-mode="register">حساب جديد</button>
             </div>
 
             <form id="authForm" novalidate>
               <div class="field-group" id="authNameGroup" hidden>
                 <label class="field-label" for="authName">الاسم</label>
                 <div class="field-control">
-                  <span class="field-icon"
-                    ><svg class="icon"><use href="#i-user"></use></svg></span
-                  >
-                  <input
-                    class="field-input"
-                    id="authName"
-                    name="name"
-                    type="text"
-                    autocomplete="name"
-                    placeholder="مثال: نورة العبدالله"
-                    maxlength="60"
-                  />
+                  <span class="field-icon"><svg class="icon"><use href="#i-user"></use></svg></span>
+                  <input class="field-input" id="authName" name="name" type="text" autocomplete="name" placeholder="مثال: نورة العبدالله" maxlength="60" />
                 </div>
               </div>
 
               <div class="field-group">
                 <label class="field-label" for="authEmail">البريد الإلكتروني</label>
                 <div class="field-control">
-                  <span class="field-icon"
-                    ><svg class="icon"><use href="#i-mail"></use></svg></span
-                  >
-                  <input
-                    class="field-input"
-                    id="authEmail"
-                    name="email"
-                    type="email"
-                    inputmode="email"
-                    autocomplete="email"
-                    placeholder="name@example.com"
-                    required
-                  />
+                  <span class="field-icon"><svg class="icon"><use href="#i-mail"></use></svg></span>
+                  <input class="field-input" id="authEmail" name="email" type="email" inputmode="email" autocomplete="email" placeholder="name@example.com" required />
                 </div>
               </div>
 
               <div class="field-group">
                 <div class="field-label-row">
                   <label class="field-label" for="authPassword">كلمة المرور</label>
-                  <span class="field-hint" id="passwordHint" hidden>
-                    8 أحرف على الأقل
-                  </span>
+                  <span class="field-hint" id="passwordHint" hidden>8 أحرف على الأقل</span>
                 </div>
                 <div class="field-control">
-                  <span class="field-icon"
-                    ><svg class="icon"><use href="#i-lock"></use></svg></span
-                  >
-                  <input
-                    class="field-input"
-                    id="authPassword"
-                    name="password"
-                    type="password"
-                    autocomplete="current-password"
-                    placeholder="••••••••"
-                    required
-                    minlength="8"
-                  />
-                  <button
-                    type="button"
-                    class="field-action"
-                    data-action="toggle-password"
-                    aria-label="إظهار كلمة المرور"
-                  >
-                    <svg class="icon"><use href="#i-eye"></use></svg>
-                  </button>
+                  <span class="field-icon"><svg class="icon"><use href="#i-lock"></use></svg></span>
+                  <input class="field-input" id="authPassword" name="password" type="password" autocomplete="current-password" placeholder="••••••••" required minlength="8" />
+                  <button type="button" class="field-action" data-action="toggle-password" aria-label="إظهار كلمة المرور"><svg class="icon"><use href="#i-eye"></use></svg></button>
                 </div>
               </div>
 
-              <div
-                id="authError"
-                class="form-alert"
-                role="alert"
-                hidden
-              >
+              <div id="authError" class="form-alert" role="alert" hidden>
                 <svg class="icon"><use href="#i-alert"></use></svg>
                 <span id="authErrorText"></span>
               </div>
 
-              <button
-                type="submit"
-                class="btn btn-primary btn-block btn-lg"
-                id="authSubmit"
-              >
+              <button type="submit" class="btn btn-primary btn-block btn-lg" id="authSubmit">
                 <span id="authSubmitLabel">تسجيل الدخول</span>
                 <svg class="icon btn-spinner" id="authSpinner" hidden><use href="#i-loader"></use></svg>
               </button>
 
-              <p class="auth-terms" id="authTerms" hidden>
-                بإنشاء حسابك، أنت توافق على أن تبقى بياناتك محفوظة بشكل آمن.
-              </p>
+              <p class="auth-terms" id="authTerms" hidden>بإنشاء حسابك، أنت توافق على أن تبقى بياناتك محفوظة بشكل آمن.</p>
             </form>
 
             <div class="auth-divider"><span>أو</span></div>
 
-            <button
-              type="button"
-              class="btn btn-secondary btn-block demo-btn"
-              data-action="demo-login"
-            >
+            <button type="button" class="btn btn-secondary btn-block demo-btn" data-action="demo-login">
               <svg class="icon"><use href="#i-sparkles"></use></svg>
               <span>استكشف بحساب تجريبي</span>
               <span class="demo-badge">جاهز فوراً</span>
             </button>
           </div>
 
-          <p class="auth-switch" id="authSwitch">
-            ليس لديك بنك بعد؟
-            <button type="button" data-action="auth-tab" data-mode="register">
-              أنشئ حسابك المجاني
-            </button>
-          </p>
+          <p class="auth-switch" id="authSwitch">ليس لديك بنك بعد؟ <button type="button" data-action="auth-tab" data-mode="register">أنشئ حسابك المجاني</button></p>
 
-          <div class="auth-security">
-            <svg class="icon"><use href="#i-shield"></use></svg>
-            <span>مشفّر وآمن — بياناتك محمية بكلمة مرور خاصة بك.</span>
-          </div>
+          <div class="auth-security"><svg class="icon"><use href="#i-shield"></use></svg><span>مشفّر وآمن — بياناتك محمية بكلمة مرور خاصة بك.</span></div>
         </div>
       </section>
 
@@ -421,18 +199,11 @@
               <div class="preview-main">
                 <div class="preview-kicker">الأكثر استخداماً</div>
                 <div class="preview-card">
-                  <div class="preview-card-top">
-                    <span class="preview-platform claude">Claude</span>
-                    <span class="preview-pin"><svg class="icon"><use href="#i-pin"></use></svg></span>
-                  </div>
+                  <div class="preview-card-top"><span class="preview-platform claude">Claude</span><span class="preview-pin"><svg class="icon"><use href="#i-pin"></use></svg></span></div>
                   <h3>محرر المحتوى الصارم</h3>
                   <p>أنت محرر محتوى عربي محترف، لديك حساسية عالية تجاه الأسلوب والوضوح...</p>
                   <div class="preview-tags"><span>تحرير</span><span>كتابة</span><span>+2</span></div>
-                  <div class="preview-meta">
-                    <span class="preview-stars">★★★★★</span>
-                    <span>47 استخداماً</span>
-                    <span class="preview-copy"><svg class="icon"><use href="#i-copy"></use></svg> نسخ</span>
-                  </div>
+                  <div class="preview-meta"><span class="preview-stars">★★★★★</span><span>47 استخداماً</span><span class="preview-copy"><svg class="icon"><use href="#i-copy"></use></svg> نسخ</span></div>
                 </div>
                 <div class="preview-chart">
                   <div class="preview-chart-head"><span>حسب المنصة</span><span>٨ برومبتات</span></div>
@@ -450,14 +221,8 @@
             </div>
           </div>
 
-          <div class="floating-chip floating-chip-1">
-            <span class="float-icon float-icon-green"><svg class="icon"><use href="#i-check"></use></svg></span>
-            <span><strong>تم الحفظ</strong><small>نتيجة ناجحة جديدة</small></span>
-          </div>
-          <div class="floating-chip floating-chip-2">
-            <span class="float-avatars"><i>ن</i><i>س</i><i>م</i></span>
-            <span><strong>بنكك، لك وحدك</strong><small>خصوصية كاملة</small></span>
-          </div>
+          <div class="floating-chip floating-chip-1"><span class="float-icon float-icon-green"><svg class="icon"><use href="#i-check"></use></svg></span><span><strong>تم الحفظ</strong><small>نتيجة ناجحة جديدة</small></span></div>
+          <div class="floating-chip floating-chip-2"><span class="float-avatars"><i>ن</i><i>س</i><i>م</i></span><span><strong>بنكك، لك وحدك</strong><small>خصوصية كاملة</small></span></div>
         </div>
 
         <div class="visual-features">
@@ -468,7 +233,7 @@
       </section>
     </div>
 
-    <!-- ===================== APP ===================== -->
+    <!-- APP SHELL -->
     <div id="app" class="app-shell" hidden>
       <div class="sidebar-backdrop" id="sidebarBackdrop" data-action="close-sidebar"></div>
 
@@ -478,48 +243,27 @@
             <span class="brand-mark"><svg class="icon"><use href="#i-sparkles"></use></svg></span>
             <span class="brand-text"><strong>Prompt Bank</strong><small>بنك البرومبتات</small></span>
           </a>
-          <button class="icon-btn sidebar-close" type="button" data-action="close-sidebar" aria-label="إغلاق القائمة">
-            <svg class="icon"><use href="#i-x"></use></svg>
-          </button>
+          <button class="icon-btn sidebar-close" type="button" data-action="close-sidebar" aria-label="إغلاق القائمة"><svg class="icon"><use href="#i-x"></use></svg></button>
         </div>
 
         <div class="workspace-card">
           <div class="workspace-avatar" id="workspaceInitial">ب</div>
-          <div class="workspace-copy">
-            <strong id="workspaceName">بنكي الشخصي</strong>
-            <span><svg class="icon"><use href="#i-shield"></use></svg> مساحة آمنة خاصة</span>
-          </div>
+          <div class="workspace-copy"><strong id="workspaceName">بنكي الشخصي</strong><span><svg class="icon"><use href="#i-shield"></use></svg> مساحة آمنة خاصة</span></div>
           <span class="workspace-live" title="محفوظة في Supabase"></span>
         </div>
 
         <nav class="sidebar-nav">
           <p class="nav-label">مساحة العمل</p>
-          <button class="nav-item" type="button" data-action="nav" data-view="dashboard">
-            <svg class="icon"><use href="#i-dashboard"></use></svg>
-            <span>نظرة عامة</span>
-          </button>
-          <button class="nav-item" type="button" data-action="nav" data-view="prompts">
-            <svg class="icon"><use href="#i-library"></use></svg>
-            <span>مكتبة البرومبتات</span>
-            <span class="nav-count" id="navPromptCount">0</span>
-          </button>
-          <button class="nav-item" type="button" data-action="nav" data-view="folders">
-            <svg class="icon"><use href="#i-folder"></use></svg>
-            <span>المجلدات</span>
-          </button>
-          <button class="nav-item" type="button" data-action="nav" data-view="results">
-            <svg class="icon"><use href="#i-award"></use></svg>
-            <span>النتائج الناجحة</span>
-            <span class="nav-count" id="navResultCount">0</span>
-          </button>
+          <button class="nav-item" type="button" data-action="nav" data-view="dashboard"><svg class="icon"><use href="#i-dashboard"></use></svg><span>نظرة عامة</span></button>
+          <button class="nav-item" type="button" data-action="nav" data-view="prompts"><svg class="icon"><use href="#i-library"></use></svg><span>مكتبة البرومبتات</span><span class="nav-count" id="navPromptCount">0</span></button>
+          <button class="nav-item" type="button" data-action="nav" data-view="folders"><svg class="icon"><use href="#i-folder"></use></svg><span>المجلدات</span></button>
+          <button class="nav-item" type="button" data-action="nav" data-view="results"><svg class="icon"><use href="#i-award"></use></svg><span>النتائج الناجحة</span><span class="nav-count" id="navResultCount">0</span></button>
         </nav>
 
         <div class="sidebar-folders">
           <div class="sidebar-section-head">
             <p class="nav-label">المجلدات</p>
-            <button class="mini-icon-btn" type="button" data-action="new-folder" aria-label="مجلد جديد" title="مجلد جديد">
-              <svg class="icon"><use href="#i-plus"></use></svg>
-            </button>
+            <button class="mini-icon-btn" type="button" data-action="new-folder" aria-label="مجلد جديد" title="مجلد جديد"><svg class="icon"><use href="#i-plus"></use></svg></button>
           </div>
           <div class="folder-nav" id="sidebarFolders"></div>
         </div>
@@ -527,20 +271,12 @@
         <div class="sidebar-foot">
           <div class="local-note">
             <div class="local-note-icon"><svg class="icon"><use href="#i-database"></use></div>
-            <div>
-              <strong>بياناتك في أمان</strong>
-              <span>محفوظة في Supabase معزولة لحسابك فقط.</span>
-            </div>
+            <div><strong>بياناتك في أمان</strong><span>محفوظة في Supabase معزولة لحسابك فقط.</span></div>
           </div>
           <div class="sidebar-user">
             <div class="avatar" id="sidebarAvatar">ب</div>
-            <div class="sidebar-user-copy">
-              <strong id="sidebarUserName">مستخدم</strong>
-              <span id="sidebarUserEmail">user@promptbank</span>
-            </div>
-            <button class="icon-btn" type="button" data-action="logout" title="تسجيل الخروج" aria-label="تسجيل الخروج">
-              <svg class="icon"><use href="#i-log-out"></use></svg>
-            </button>
+            <div class="sidebar-user-copy"><strong id="sidebarUserName">مستخدم</strong><span id="sidebarUserEmail">user@promptbank</span></div>
+            <button class="icon-btn" type="button" data-action="logout" title="تسجيل الخروج" aria-label="تسجيل الخروج"><svg class="icon"><use href="#i-log-out"></use></svg></button>
           </div>
         </div>
       </aside>
@@ -548,35 +284,20 @@
       <div class="app-body">
         <header class="topbar">
           <div class="topbar-start">
-            <button class="icon-btn mobile-menu" type="button" data-action="open-sidebar" aria-label="فتح القائمة">
-              <svg class="icon"><use href="#i-menu"></use></svg>
-            </button>
-            <div class="topbar-title">
-              <span id="topbarEyebrow">مساحة العمل</span>
-              <h2 id="topbarTitle">نظرة عامة</h2>
-            </div>
+            <button class="icon-btn mobile-menu" type="button" data-action="open-sidebar" aria-label="فتح القائمة"><svg class="icon"><use href="#i-menu"></use></svg></button>
+            <div class="topbar-title"><span id="topbarEyebrow">مساحة العمل</span><h2 id="topbarTitle">نظرة عامة</h2></div>
           </div>
 
           <div class="topbar-actions">
-            <div class="global-search" id="globalSearchWrap">
-              <svg class="icon"><use href="#i-search"></use></svg>
-              <input id="globalSearch" type="search" placeholder="ابحث في برومبتاتك..." autocomplete="off" aria-label="بحث سريع" />
-              <kbd>⌘ K</kbd>
-            </div>
+            <div class="global-search" id="globalSearchWrap"><svg class="icon"><use href="#i-search"></use></svg><input id="globalSearch" type="search" placeholder="ابحث في برومبتاتك..." autocomplete="off" aria-label="بحث سريع" /><kbd>⌘ K</kbd></div>
             <button class="icon-btn theme-toggle" type="button" data-action="toggle-theme" aria-label="تبديل المظهر" data-theme-toggle></button>
-            <button class="btn btn-primary topbar-add" type="button" data-action="new-prompt">
-              <svg class="icon"><use href="#i-plus"></use></svg>
-              <span>برومبت جديد</span>
-            </button>
+            <button class="btn btn-primary topbar-add" type="button" data-action="new-prompt"><svg class="icon"><use href="#i-plus"></use></svg><span>برومبت جديد</span></button>
           </div>
         </header>
 
         <main id="mainContent" class="main-content" tabindex="-1">
           <div id="viewRoot"></div>
-          <footer class="app-footer">
-            <span>Prompt Bank <b>·</b> بنك البرومبتات</span>
-            <span class="footer-secure"><svg class="icon"><use href="#i-shield"></use></svg> بيانات محمية وآمنة</span>
-          </footer>
+          <footer class="app-footer"><span>Prompt Bank <b>·</b> بنك البرومبتات</span><span class="footer-secure"><svg class="icon"><use href="#i-shield"></use></svg> بيانات محمية وآمنة</span></footer>
         </main>
       </div>
     </div>
