@@ -36,7 +36,7 @@
       }
     };
   </script>
-  <link rel="stylesheet" href="./assets/styles.css" />
+  <link rel="stylesheet" href="assets/styles.css" />
 </head>
 <body class="h-full">
   <a href="#mainContent" class="skip-link">تخطَّ إلى المحتوى</a>
@@ -111,10 +111,10 @@
 
           <form id="authForm" novalidate>
             <div class="field-group" id="authNameGroup" hidden>
-              <label class="field-label" for="authName">الاسم الكامل</label>
+              <label class="field-label" for="authName">الاسم</label>
               <div class="field-control">
                 <span class="field-icon"><svg class="icon"><use href="#i-user"></use></svg></span>
-                <input class="field-input" id="authName" name="name" type="text" autocomplete="name" placeholder="مثال: أحمد محمد" maxlength="60" />
+                <input class="field-input" id="authName" name="name" type="text" autocomplete="name" placeholder="مثال: نورة العبدالله" maxlength="60" />
               </div>
             </div>
 
@@ -129,7 +129,7 @@
             <div class="field-group">
               <div class="field-label-row">
                 <label class="field-label" for="authPassword">كلمة المرور</label>
-                <span class="field-hint" id="passwordHint">8 أحرف على الأقل</span>
+                <span class="field-hint" id="passwordHint" hidden>8 أحرف على الأقل</span>
               </div>
               <div class="field-control">
                 <span class="field-icon"><svg class="icon"><use href="#i-lock"></use></svg></span>
@@ -150,18 +150,26 @@
               <svg class="icon btn-spinner" id="authSpinner" hidden><use href="#i-loader"></use></svg>
             </button>
 
-            <p class="auth-terms" id="authTerms" hidden>بإنشاء حسابك، سيتم حفظ بياناتك بشكل آمن في Supabase ومعزولة تمامًا عن باقي المستخدمين.</p>
+            <p class="auth-terms" id="authTerms" hidden>بإنشاء حسابك، أنت توافق على أن تبقى بياناتك محفوظة على جهازك فقط.</p>
           </form>
+
+          <div class="auth-divider"><span>أو</span></div>
+
+          <button type="button" class="btn btn-secondary btn-block demo-btn" data-action="demo-login">
+            <svg class="icon"><use href="#i-sparkles"></use></svg>
+            <span>استكشف بحساب تجريبي</span>
+            <span class="demo-badge">جاهز فوراً</span>
+          </button>
         </div>
 
         <p class="auth-switch" id="authSwitch">
-          ليس لديك حساب بعد؟
-          <button type="button" data-action="auth-tab" data-mode="register">أنشئ حسابك</button>
+          ليس لديك بنك بعد؟
+          <button type="button" data-action="auth-tab" data-mode="register">أنشئ حسابك المجاني</button>
         </p>
 
         <div class="auth-security">
           <svg class="icon"><use href="#i-shield"></use></svg>
-          <span>محمية بـ Row Level Security (RLS)</span>
+          <span>مشفّر ومحلي على جهازك — لا تغادر بياناتك هذا المتصفح.</span>
         </div>
       </div>
     </section>
@@ -172,13 +180,76 @@
       <div class="visual-orb visual-orb-2"></div>
 
       <div class="visual-top">
-        <span class="visual-pill"><span class="live-dot"></span> آمن ومحفوظ</span>
+        <span class="visual-pill"><span class="live-dot"></span> مساحة عمل هادئة</span>
         <span class="visual-wordmark">PROMPT / BANK</span>
       </div>
 
       <div class="visual-copy">
-        <h2>برومبتاتك الذهبية،<br /><span>في بنك واحد آمن.</span></h2>
-        <p>احفظ، نظّم، قيّم، وارجع لأفضل برومبتاتك في أي وقت وبكل سهولة.</p>
+        <h2>برومبتاتك الذهبية،<br /><span>في بنك واحد.</span></h2>
+        <p>لا تترك أفضل أفكارك في محادثات متناثرة. احفظها، نظّمها، وأعد استخدامها في كل مرة.</p>
+      </div>
+
+      <div class="preview-stage">
+        <div class="preview-window">
+          <div class="preview-bar">
+            <div class="preview-dots"><span></span><span></span><span></span></div>
+            <div class="preview-address">promptbank / مكتبتي</div>
+            <div class="preview-avatar">ن</div>
+          </div>
+          <div class="preview-body">
+            <div class="preview-side">
+              <div class="preview-side-logo"><svg class="icon"><use href="#i-sparkles"></use></svg></div>
+              <span class="preview-side-line active"></span>
+              <span class="preview-side-line"></span>
+              <span class="preview-side-line short"></span>
+              <span class="preview-side-line"></span>
+            </div>
+            <div class="preview-main">
+              <div class="preview-kicker">الأكثر استخداماً</div>
+              <div class="preview-card">
+                <div class="preview-card-top">
+                  <span class="preview-platform claude">Claude</span>
+                  <span class="preview-pin"><svg class="icon"><use href="#i-pin"></use></svg></span>
+                </div>
+                <h3>محرر المحتوى الصارم</h3>
+                <p>أنت محرر محتوى عربي محترف، لديك حساسية عالية تجاه الأسلوب والوضوح...</p>
+                <div class="preview-tags"><span>تحرير</span><span>كتابة</span><span>+2</span></div>
+                <div class="preview-meta">
+                  <span class="preview-stars">★★★★★</span>
+                  <span>47 استخداماً</span>
+                  <span class="preview-copy"><svg class="icon"><use href="#i-copy"></use></svg> نسخ</span>
+                </div>
+              </div>
+              <div class="preview-chart">
+                <div class="preview-chart-head"><span>حسب المنصة</span><span>٨ برومبتات</span></div>
+                <div class="preview-bars">
+                  <span style="--h:82%;--c:#c96442"></span>
+                  <span style="--h:58%;--c:#10a37f"></span>
+                  <span style="--h:44%;--c:#4c8df6"></span>
+                  <span style="--h:31%;--c:#7c6bff"></span>
+                  <span style="--h:22%;--c:#8b8d98"></span>
+                  <span style="--h:15%;--c:#1fb8ad"></span>
+                </div>
+                <div class="preview-platforms"><span>Claude</span><span>ChatGPT</span><span>Gemini</span><span>MJ</span><span>Grok</span><span>PPLX</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="floating-chip floating-chip-1">
+          <span class="float-icon float-icon-green"><svg class="icon"><use href="#i-check"></use></svg></span>
+          <span><strong>تم الحفظ</strong><small>نتيجة ناجحة جديدة</small></span>
+        </div>
+        <div class="floating-chip floating-chip-2">
+          <span class="float-avatars"><i>ن</i><i>س</i><i>م</i></span>
+          <span><strong>بنكك، لك وحدك</strong><small>خصوصية كاملة</small></span>
+        </div>
+      </div>
+
+      <div class="visual-features">
+        <div><svg class="icon"><use href="#i-folder"></use></svg><span>تنظيم بالمجلدات</span></div>
+        <div><svg class="icon"><use href="#i-shield"></use></svg><span>خصوصية كاملة</span></div>
+        <div><svg class="icon"><use href="#i-sparkles"></use></svg><span>لكل منصات AI</span></div>
       </div>
     </section>
   </div>
@@ -202,9 +273,9 @@
         <div class="workspace-avatar" id="workspaceInitial">ب</div>
         <div class="workspace-copy">
           <strong id="workspaceName">بنكي الشخصي</strong>
-          <span><svg class="icon"><use href="#i-shield"></use></svg> محمي بـ RLS</span>
+          <span><svg class="icon"><use href="#i-shield"></use></svg> مساحة محلية خاصة</span>
         </div>
-        <span class="workspace-live" title="متصل"></span>
+        <span class="workspace-live" title="محفوظ على جهازك"></span>
       </div>
 
       <nav class="sidebar-nav">
@@ -240,11 +311,15 @@
       </div>
 
       <div class="sidebar-foot">
+        <div class="local-note">
+          <div class="local-note-icon"><svg class="icon"><use href="#i-database"></use></svg></div>
+          <div><strong>بياناتك في أمان</strong><span>محفوظة في هذا المتصفح فقط، ولا يراها أحد غيرك.</span></div>
+        </div>
         <div class="sidebar-user">
           <div class="avatar" id="sidebarAvatar">ب</div>
           <div class="sidebar-user-copy">
             <strong id="sidebarUserName">مستخدم</strong>
-            <span id="sidebarUserEmail">user@promptbank.app</span>
+            <span id="sidebarUserEmail">user@promptbank</span>
           </div>
           <button class="icon-btn" type="button" data-action="logout" title="تسجيل الخروج" aria-label="تسجيل الخروج">
             <svg class="icon"><use href="#i-log-out"></use></svg>
@@ -283,17 +358,17 @@
         <div id="viewRoot"></div>
         <footer class="app-footer">
           <span>Prompt Bank <b>·</b> بنك البرومبتات</span>
-          <span class="footer-secure"><svg class="icon"><use href="#i-shield"></use></svg> آمن ومُعزَّل</span>
+          <span class="footer-secure"><svg class="icon"><use href="#i-shield"></use></svg> بيانات محلية ومشفّرة</span>
         </footer>
       </main>
     </div>
   </div>
 
+  <div id="drawerRoot"></div>
   <div id="modalRoot"></div>
   <div id="toastRoot" class="toast-root" aria-live="polite" aria-atomic="false"></div>
 
-  <!-- Supabase + Config + App -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+  <script src="https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
   <script src="./assets/config.js"></script>
   <script src="./assets/app.js"></script>
 </body>
