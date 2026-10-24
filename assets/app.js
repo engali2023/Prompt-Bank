@@ -389,18 +389,29 @@ document.addEventListener('click', (e) => {
   if (pin && pbClient && state.user) {
     const p = state.data.prompts.find(x => x.id === pin.dataset.pin);
     if (!p) return;
-    pbClient.from('prompts').update({ pinned: !p.pinned, updated_at: nowISO() }).eq('id', p.id).eq('user_id', state.user.id);
-    loadData();
-    render();
+    (async () => {
+      const { error } = await pbClient.from('prompts').update({ pinned: !p.pinned, updated_at: nowISO() }).eq('id', p.id).eq('user_id', state.user.id);
+      if (error) { console.error('[PB] Pin error:', error); toast('تعذر تحديث التثبيت: ' + error.message); return; }
+      p.pinned = !p.pinned;
+      render();
+      toast(p.pinned ? 'تم تثبيت البرومبت' : 'تم إلغاء تثبيت البرومبت');
+    })();
     return;
   }
 
   // Rate
   const rate = e.target.closest("[data-rate]");
   if (rate && pbClient && state.user) {
-    pbClient.from('prompts').update({ rating: +rate.dataset.v, updated_at: nowISO() }).eq('id', rate.dataset.rate).eq('user_id', state.user.id);
-    loadData();
-    render();
+    const p = state.data.prompts.find(x => x.id === rate.dataset.rate);
+    if (!p) return;
+    (async () => {
+      const rating = Number(rate.dataset.v);
+      const { error } = await pbClient.from('prompts').update({ rating, updated_at: nowISO() }).eq('id', p.id).eq('user_id', state.user.id);
+      if (error) { console.error('[PB] Rating error:', error); toast('تعذر حفظ التقييم: ' + error.message); return; }
+      p.rating = rating;
+      render();
+      toast('تم حفظ التقييم');
+    })();
     return;
   }
 
@@ -412,10 +423,14 @@ document.addEventListener('click', (e) => {
   const dl = e.target.closest("[data-del]");
   if (dl && pbClient && state.user) {
     if (!confirm('حذف نهائياً؟')) return;
-    pbClient.from('prompts').delete().eq('id', dl.dataset.del).eq('user_id', state.user.id);
-    loadData();
-    render();
-    toast('تم الحذف');
+    const id = dl.dataset.del;
+    (async () => {
+      const { error } = await pbClient.from('prompts').delete().eq('id', id).eq('user_id', state.user.id);
+      if (error) { console.error('[PB] Delete error:', error); toast('تعذر حذف البرومبت: ' + error.message); return; }
+      state.data.prompts = state.data.prompts.filter(p => p.id !== id);
+      render();
+      toast('تم الحذف');
+    })();
     return;
   }
 
