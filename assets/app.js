@@ -1,7 +1,7 @@
 /*
   Prompt Bank - بنك البرومبتات
   Supabase Integration (Auth + DB + RLS)
-  يُستخدم متغير pbClient لتجنب تصادم التعريف مع مكتبة Supabase UMD
+  إصدار مُصلح لتدفق المصادقة (Auth Flow)
 */
 
 const PLATFORMS = [
@@ -119,7 +119,7 @@ function initPb() {
     );
     console.log("[Prompt Bank] تم تهيئة Supabase بنجاح");
 
-    // --- مهم: إعداد مستخدم تغيير حالة المصادقة بعد التهيئة مباشرة ---
+    // إعداد مستمع تغيير حالة المصادقة فوراً بعد التهيئة
     setupAuthListener();
 
     return true;
@@ -142,22 +142,39 @@ const state = {
   filters: { platform: "all", folder: "all", query: "", onlyPinned: false }
 };
 
-/* ===================== UI Elements ===================== */
-const authScreen = document.getElementById("authScreen");
-const appEl = document.getElementById("app");
-const authForm = document.getElementById("authForm");
-const authHeading = document.getElementById("authHeading");
-const authSub = document.getElementById("authSub");
-const authNameGroup = document.getElementById("authNameGroup");
-const authName = document.getElementById("authName");
-const authEmail = document.getElementById("authEmail");
-const authPassword = document.getElementById("authPassword");
-const authSubmitLabel = document.getElementById("authSubmitLabel");
-const authSpinner = document.getElementById("authSpinner");
-const authError = document.getElementById("authError");
-const authErrorText = document.getElementById("authErrorText");
-const authTerms = document.getElementById("authTerms");
-const authSwitch = document.getElementById("authSwitch");
+/* ===================== UI Elements (تُجلب بعد DOMContentLoaded) ===================== */
+let authScreen, appEl, authForm, authHeading, authSub, authNameGroup, authName, authEmail, authPassword, authSubmitLabel, authSpinner, authError, authErrorText, authTerms, authSwitch;
+let viewRoot, globalSearch, navPromptCount, navResultCount, sidebarFolders, workspaceName, workspaceInitial, sidebarAvatar, sidebarUserName, sidebarUserEmail, modalRoot;
+
+function getUIElements() {
+  authScreen = document.getElementById("authScreen");
+  appEl = document.getElementById("app");
+  authForm = document.getElementById("authForm");
+  authHeading = document.getElementById("authHeading");
+  authSub = document.getElementById("authSub");
+  authNameGroup = document.getElementById("authNameGroup");
+  authName = document.getElementById("authName");
+  authEmail = document.getElementById("authEmail");
+  authPassword = document.getElementById("authPassword");
+  authSubmitLabel = document.getElementById("authSubmitLabel");
+  authSpinner = document.getElementById("authSpinner");
+  authError = document.getElementById("authError");
+  authErrorText = document.getElementById("authErrorText");
+  authTerms = document.getElementById("authTerms");
+  authSwitch = document.getElementById("authSwitch");
+
+  viewRoot = document.getElementById("viewRoot");
+  globalSearch = document.getElementById("globalSearch");
+  navPromptCount = document.getElementById("navPromptCount");
+  navResultCount = document.getElementById("navResultCount");
+  sidebarFolders = document.getElementById("sidebarFolders");
+  workspaceName = document.getElementById("workspaceName");
+  workspaceInitial = document.getElementById("workspaceInitial");
+  sidebarAvatar = document.getElementById("sidebarAvatar");
+  sidebarUserName = document.getElementById("sidebarUserName");
+  sidebarUserEmail = document.getElementById("sidebarUserEmail");
+  modalRoot = document.getElementById("modalRoot");
+}
 
 let authMode = "login";
 
@@ -169,23 +186,25 @@ function setAuthMode(mode) {
     b.setAttribute("aria-selected", active ? "true" : "false");
   });
   if (mode === "login") {
-    authHeading.textContent = "مرحباً بعودتك";
-    authSub.textContent = "سجّل الدخول لفتح بنك برومبتاتك الآمن.";
-    authNameGroup.hidden = true;
-    authSubmitLabel.textContent = "تسجيل الدخول";
-    authTerms.hidden = true;
-    authSwitch.innerHTML =
-      'ليس لديك حساب بعد؟ <button type="button" data-action="auth-tab" data-mode="register">أنشئ حسابك</button>';
-    authPassword.setAttribute("autocomplete", "current-password");
+    if (authHeading) authHeading.textContent = "مرحباً بعودتك";
+    if (authSub) authSub.textContent = "سجّل الدخول لفتح بنك برومبتاتك الآمن.";
+    if (authNameGroup) authNameGroup.hidden = true;
+    if (authSubmitLabel) authSubmitLabel.textContent = "تسجيل الدخول";
+    if (authTerms) authTerms.hidden = true;
+    if (authSwitch)
+      authSwitch.innerHTML =
+        'ليس لديك حساب بعد؟ <button type="button" data-action="auth-tab" data-mode="register">أنشئ حسابك</button>';
+    if (authPassword) authPassword.setAttribute("autocomplete", "current-password");
   } else {
-    authHeading.textContent = "أنشئ حسابك";
-    authSub.textContent = "بياناتك محمية ومعزولة بالكامل.";
-    authNameGroup.hidden = false;
-    authSubmitLabel.textContent = "إنشاء الحساب";
-    authTerms.hidden = false;
-    authSwitch.innerHTML =
-      'لديك حساب بالفعل؟ <button type="button" data-action="auth-tab" data-mode="login">سجّل الدخول</button>';
-    authPassword.setAttribute("autocomplete", "new-password");
+    if (authHeading) authHeading.textContent = "أنشئ حسابك";
+    if (authSub) authSub.textContent = "بياناتك محمية ومعزولة بالكامل.";
+    if (authNameGroup) authNameGroup.hidden = false;
+    if (authSubmitLabel) authSubmitLabel.textContent = "إنشاء الحساب";
+    if (authTerms) authTerms.hidden = false;
+    if (authSwitch)
+      authSwitch.innerHTML =
+        'لديك حساب بالفعل؟ <button type="button" data-action="auth-tab" data-mode="login">سجّل الدخول</button>';
+    if (authPassword) authPassword.setAttribute("autocomplete", "new-password");
   }
   if (authError) authError.hidden = true;
   if (authErrorText) authErrorText.textContent = "";
@@ -198,16 +217,22 @@ function setupAuthListener() {
     return;
   }
   console.log("[Prompt Bank] إعداد مستمع تغيير حالة المصادقة...");
+
   pbClient.auth.onAuthStateChange(async (_e, session) => {
     console.log(
       "[Prompt Bank] حدث مصادقة:",
       _e,
       session?.user ? "مُسجل دخول (" + session.user.email + ")" : "تسجيل خروج"
     );
+
     if (session?.user) {
       state.user = session.user;
-      await loadProfile();
-      await loadData();
+      try {
+        await loadProfile();
+        await loadData();
+      } catch (err) {
+        console.error("[Prompt Bank] خطأ في تحميل البيانات بعد تسجيل الدخول:", err);
+      }
       if (authScreen) authScreen.hidden = true;
       if (appEl) appEl.hidden = false;
       initApp();
@@ -220,7 +245,7 @@ function setupAuthListener() {
     }
   });
 
-  // فحص الجلسة الحالية فوراً
+  // فحص الجلسة الحالية فوراً (للمستخدمين العائدين)
   pbClient.auth.getSession().then(({ data: { session }, error }) => {
     if (error) {
       console.error("[Prompt Bank] خطأ في جلب الجلسة:", error);
@@ -460,7 +485,10 @@ document.addEventListener("click", (e) => {
 /* ===================== Auth Form ===================== */
 authForm?.addEventListener("submit", async (e) => {
   e.preventDefault();
-  if (!pbClient) return;
+  if (!pbClient) {
+    toast("الموقع لم يتم تهيئته بعد، يرجى تحديث الصفحة");
+    return;
+  }
   if (authError) authError.hidden = true;
   if (authErrorText) authErrorText.textContent = "";
 
@@ -519,7 +547,7 @@ authForm?.addEventListener("submit", async (e) => {
       });
       if (error) throw error;
       toast("تم تسجيل الدخول بنجاح");
-      // لا نحتاج لتغيير الشاشة هنا لأن onAuthStateChange سيتولى ذلك
+      // علىAuthStateChange سيتولى عرض الواجهة الرئيسية
     }
   } catch (err) {
     if (authErrorText) {
@@ -592,24 +620,7 @@ async function loadData() {
   }
 }
 
-/* ===================== App Shell Elements ===================== */
-const viewRoot = document.getElementById("viewRoot");
-const globalSearch = document.getElementById("globalSearch");
-const navPromptCount = document.getElementById("navPromptCount");
-const navResultCount = document.getElementById("navResultCount");
-const sidebarFolders = document.getElementById("sidebarFolders");
-const workspaceName = document.getElementById("workspaceName");
-const workspaceInitial = document.getElementById("workspaceInitial");
-const sidebarAvatar = document.getElementById("sidebarAvatar");
-const sidebarUserName = document.getElementById("sidebarUserName");
-const sidebarUserEmail = document.getElementById("sidebarUserEmail");
-
-globalSearch?.addEventListener("input", () => {
-  state.filters.query = globalSearch.value;
-  if (state.view !== "prompts") setView("prompts");
-  else render();
-});
-
+/* ===================== App Shell ===================== */
 function initApp() {
   if (!state.user) return;
   const name =
@@ -1001,7 +1012,6 @@ function renderResults() {
 }
 
 /* ===================== Modals ===================== */
-const modalRoot = document.getElementById("modalRoot");
 function closeModals() {
   if (modalRoot) modalRoot.innerHTML = "";
 }
@@ -1270,6 +1280,7 @@ async function openResultModal() {
 /* ===================== Bootstrap ===================== */
 document.addEventListener("DOMContentLoaded", () => {
   console.log("[Prompt Bank] DOM تم تحميله");
+  getUIElements();
   initTheme();
   setAuthMode("login");
 
