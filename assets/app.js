@@ -1,7 +1,6 @@
 /*
-  Prompt Bank - بنك البرومبتات
-  Supabase Auth + DB + RLS
-  نسخة بسيطة ومضمونة - تم إصلاح تدفق المصادقة
+  Prompt Bank - إصدار تشخيصي
+  يعرض رسالة ترحيب فورية لمعرفة إذا كان JavaScript يعمل
 */
 
 const PLATFORMS = [
@@ -166,6 +165,7 @@ async function showApp() {
   if (!state.user) {
     if (authScreen) authScreen.hidden = false;
     if (appEl) appEl.hidden = true;
+    console.log('[PB] Showing auth screen');
     return;
   }
 
@@ -205,7 +205,6 @@ function setupAuth() {
     await showApp();
   });
 
-  // Check existing session
   pbClient.auth.getSession().then(({ data: { session }, error }) => {
     if (error) {
       console.log('[PB] No session:', error);
@@ -226,60 +225,62 @@ function setupAuth() {
   });
 }
 
-/* ===================== Auth Form ===================== */
-authForm?.addEventListener('submit', async (e) => {
-  e.preventDefault();
-  if (!pbClient) return;
-  if (authError) authError.hidden = true;
-  if (authErrorText) authErrorText.textContent = '';
+/* ===================== Auth Form Handler ===================== */
+function setupAuthForm() {
+  if (!authForm) return;
+  authForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!pbClient) return;
+    if (authError) authError.hidden = true;
+    if (authErrorText) authErrorText.textContent = '';
 
-  const email = authEmail.value.trim().toLowerCase();
-  const pass = authPassword.value;
-  const name = authName.value.trim();
+    const email = authEmail.value.trim().toLowerCase();
+    const pass = authPassword.value;
+    const name = authName.value.trim();
 
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    if (authErrorText) { authErrorText.textContent = 'بريد إلكتروني غير صحيح'; authError.hidden = false; }
-    return;
-  }
-  if (pass.length < 8) {
-    if (authErrorText) { authErrorText.textContent = 'كلمة المرور ٨ أحرف على الأقل'; authError.hidden = false; }
-    return;
-  }
-
-  if (authSpinner) authSpinner.hidden = false;
-  if (authSubmitLabel) authSubmitLabel.textContent = authMode === 'login' ? 'جاري الدخول...' : 'جاري الإنشاء...';
-
-  try {
-    if (authMode === 'register') {
-      if (!name) {
-        if (authErrorText) { authErrorText.textContent = 'أدخل الاسم الكامل'; authError.hidden = false; }
-        if (authSpinner) authSpinner.hidden = true;
-        if (authSubmitLabel) authSubmitLabel.textContent = 'إنشاء الحساب';
-        return;
-      }
-      const { data, error } = await pbClient.auth.signUp({
-        email, password: pass,
-        options: { data: { full_name: name } }
-      });
-      if (error) throw error;
-      if (data.user) {
-        await pbClient.from('profiles').upsert({ id: data.user.id, email, full_name: name });
-        toast('تم إنشاء الحساب، جاري تسجيل الدخول...');
-      }
-    } else {
-      const { error } = await pbClient.auth.signInWithPassword({ email, password: pass });
-      if (error) throw error;
-      toast('تم تسجيل الدخول');
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      if (authErrorText) { authErrorText.textContent = 'بريد إلكتروني غير صحيح'; authError.hidden = false; }
+      return;
     }
-    // showApp will be called by onAuthStateChange
-  } catch (err) {
-    console.error('[PB] Auth error:', err);
-    if (authErrorText) { authErrorText.textContent = err.message || 'خطأ'; authError.hidden = false; }
-  } finally {
-    if (authSpinner) authSpinner.hidden = true;
-    if (authSubmitLabel) authSubmitLabel.textContent = authMode === 'login' ? 'تسجيل الدخول' : 'إنشاء الحساب';
-  }
-});
+    if (pass.length < 8) {
+      if (authErrorText) { authErrorText.textContent = 'كلمة المرور ٨ أحرف على الأقل'; authError.hidden = false; }
+      return;
+    }
+
+    if (authSpinner) authSpinner.hidden = false;
+    if (authSubmitLabel) authSubmitLabel.textContent = authMode === 'login' ? 'جاري الدخول...' : 'جاري الإنشاء...';
+
+    try {
+      if (authMode === 'register') {
+        if (!name) {
+          if (authErrorText) { authErrorText.textContent = 'أدخل الاسم الكامل'; authError.hidden = false; }
+          if (authSpinner) authSpinner.hidden = true;
+          if (authSubmitLabel) authSubmitLabel.textContent = 'إنشاء الحساب';
+          return;
+        }
+        const { data, error } = await pbClient.auth.signUp({
+          email, password: pass,
+          options: { data: { full_name: name } }
+        });
+        if (error) throw error;
+        if (data.user) {
+          await pbClient.from('profiles').upsert({ id: data.user.id, email, full_name: name });
+          toast('تم إنشاء الحساب، جاري تسجيل الدخول...');
+        }
+      } else {
+        const { error } = await pbClient.auth.signInWithPassword({ email, password: pass });
+        if (error) throw error;
+        toast('تم تسجيل الدخول');
+      }
+    } catch (err) {
+      console.error('[PB] Auth error:', err);
+      if (authErrorText) { authErrorText.textContent = err.message || 'خطأ'; authError.hidden = false; }
+    } finally {
+      if (authSpinner) authSpinner.hidden = true;
+      if (authSubmitLabel) authSubmitLabel.textContent = authMode === 'login' ? 'تسجيل الدخول' : 'إنشاء الحساب';
+    }
+  });
+}
 
 /* ===================== Global Click Delegation ===================== */
 document.addEventListener('click', (e) => {
@@ -322,7 +323,6 @@ document.addEventListener('click', (e) => {
   const nf = e.target.closest("[data-action='new-folder']");
   if (nf) { openFolderModal(); return; }
 
-  // Demo login
   const demo = e.target.closest("[data-action='demo-login']");
   if (demo && pbClient) {
     const btn = demo.querySelector('.demo-badge') || demo;
@@ -341,7 +341,6 @@ document.addEventListener('click', (e) => {
     return;
   }
 
-  // Copy prompt
   const c = e.target.closest("[data-copy]");
   if (c && pbClient && state.user) {
     const p = state.data.prompts.find(x => x.id === c.dataset.copy);
@@ -354,7 +353,6 @@ document.addEventListener('click', (e) => {
     return;
   }
 
-  // Pin
   const pin = e.target.closest("[data-pin]");
   if (pin && pbClient && state.user) {
     const p = state.data.prompts.find(x => x.id === pin.dataset.pin);
@@ -365,7 +363,6 @@ document.addEventListener('click', (e) => {
     return;
   }
 
-  // Rate
   const rate = e.target.closest("[data-rate]");
   if (rate && pbClient && state.user) {
     pbClient.from('prompts').update({ rating: +rate.dataset.v, updated_at: nowISO() }).eq('id', rate.dataset.rate).eq('user_id', state.user.id);
@@ -374,11 +371,9 @@ document.addEventListener('click', (e) => {
     return;
   }
 
-  // Edit
   const ed = e.target.closest("[data-edit]");
   if (ed) { openPromptModal(ed.dataset.edit); return; }
 
-  // Delete prompt
   const dl = e.target.closest("[data-del]");
   if (dl && pbClient && state.user) {
     if (!confirm('حذف نهائياً؟')) return;
@@ -389,7 +384,6 @@ document.addEventListener('click', (e) => {
     return;
   }
 
-  // Folder open
   const fo = e.target.closest("[data-fopen]");
   if (fo) { state.filters.folder = fo.dataset.fopen; state.view = 'prompts'; render(); return; }
 
@@ -407,11 +401,9 @@ document.addEventListener('click', (e) => {
     return;
   }
 
-  // Add result
   const ar = e.target.closest("[data-action='add-result']");
   if (ar) { openResultModal(); return; }
 
-  // Delete result
   const rd = e.target.closest("[data-rdel]");
   if (rd && pbClient && state.user) {
     if (!confirm('حذف النتيجة؟')) return;
@@ -612,7 +604,13 @@ document.addEventListener('DOMContentLoaded', () => {
   setAuthMode('login');
   if (authScreen) authScreen.hidden = false;
   if (appEl) appEl.hidden = true;
+  console.log('[PB] Auth screen hidden:', authScreen ? authScreen.hidden : 'no element');
+  console.log('[PB] App hidden:', appEl ? appEl.hidden : 'no element');
   if (!initPb()) return;
   setupAuth();
+  setupAuthForm();
   console.log('[PB] Ready');
 });
+</parameter>
+</function>
+
