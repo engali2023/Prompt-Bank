@@ -118,6 +118,10 @@ function initPb() {
       window.SUPABASE_CONFIG.anonKey
     );
     console.log("[Prompt Bank] تم تهيئة Supabase بنجاح");
+
+    // --- مهم: إعداد مستخدم تغيير حالة المصادقة بعد التهيئة مباشرة ---
+    setupAuthListener();
+
     return true;
   } catch (err) {
     console.error("[Prompt Bank] خطأ في التهيئة:", err);
@@ -185,6 +189,53 @@ function setAuthMode(mode) {
   }
   if (authError) authError.hidden = true;
   if (authErrorText) authErrorText.textContent = "";
+}
+
+/* ===================== Auth State Change Listener ===================== */
+function setupAuthListener() {
+  if (!pbClient) {
+    console.error("[Prompt Bank] لا يمكن إعداد مستمع المصادقة: pbClient غير مهيأ");
+    return;
+  }
+  console.log("[Prompt Bank] إعداد مستمع تغيير حالة المصادقة...");
+  pbClient.auth.onAuthStateChange(async (_e, session) => {
+    console.log(
+      "[Prompt Bank] حدث مصادقة:",
+      _e,
+      session?.user ? "مُسجل دخول (" + session.user.email + ")" : "تسجيل خروج"
+    );
+    if (session?.user) {
+      state.user = session.user;
+      await loadProfile();
+      await loadData();
+      if (authScreen) authScreen.hidden = true;
+      if (appEl) appEl.hidden = false;
+      initApp();
+    } else {
+      state.user = null;
+      state.profile = null;
+      state.data = { folders: [], prompts: [], results: [] };
+      if (authScreen) authScreen.hidden = false;
+      if (appEl) appEl.hidden = true;
+    }
+  });
+
+  // فحص الجلسة الحالية فوراً
+  pbClient.auth.getSession().then(({ data: { session }, error }) => {
+    if (error) {
+      console.error("[Prompt Bank] خطأ في جلب الجلسة:", error);
+      return;
+    }
+    if (session?.user) {
+      console.log("[Prompt Bank] جلسة موجودة:", session.user.email);
+      state.user = session.user;
+      // لا نغير الشاشة هنا لأن المستمع سيطلق تلقائياً عند وجود جلسة
+    } else {
+      console.log("[Prompt Bank] لا توجد جلسة — إظهار شاشة تسجيل الدخول");
+      if (authScreen) authScreen.hidden = false;
+      if (appEl) appEl.hidden = true;
+    }
+  });
 }
 
 /* ===================== Global Event Delegation ===================== */
@@ -468,6 +519,7 @@ authForm?.addEventListener("submit", async (e) => {
       });
       if (error) throw error;
       toast("تم تسجيل الدخول بنجاح");
+      // لا نحتاج لتغيير الشاشة هنا لأن onAuthStateChange سيتولى ذلك
     }
   } catch (err) {
     if (authErrorText) {
@@ -481,30 +533,6 @@ authForm?.addEventListener("submit", async (e) => {
         authMode === "login" ? "تسجيل الدخول" : "إنشاء الحساب";
   }
 });
-
-/* ===================== Auth State Change ===================== */
-if (pbClient) {
-  pbClient.auth.onAuthStateChange(async (_e, session) => {
-    console.log(
-      "[Prompt Bank] حالة المصادقة تغيرت:",
-      session?.user ? "مُسجل دخول" : "لم يسجل دخول"
-    );
-    if (session?.user) {
-      state.user = session.user;
-      await loadProfile();
-      await loadData();
-      if (authScreen) authScreen.hidden = true;
-      if (appEl) appEl.hidden = false;
-      initApp();
-    } else {
-      state.user = null;
-      state.profile = null;
-      state.data = { folders: [], prompts: [], results: [] };
-      if (authScreen) authScreen.hidden = false;
-      if (appEl) appEl.hidden = true;
-    }
-  });
-}
 
 /* ===================== Data Loading ===================== */
 async function loadProfile() {
@@ -1252,3 +1280,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (!initPb()) return;
   console.log("[Prompt Bank] Supabase جاهز، في انتظار المصادقة...");
 });
+
+</parameter>
+</function>
+
