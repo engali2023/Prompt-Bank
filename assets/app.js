@@ -390,9 +390,19 @@ document.addEventListener('click', (e) => {
     const p = state.data.prompts.find(x => x.id === pin.dataset.pin);
     if (!p) return;
     (async () => {
-      const { error } = await pbClient.from('prompts').update({ pinned: !p.pinned, updated_at: nowISO() }).eq('id', p.id).eq('user_id', state.user.id);
-      if (error) { console.error('[PB] Pin error:', error); toast('تعذر تحديث التثبيت: ' + error.message); return; }
-      p.pinned = !p.pinned;
+      const nextPinned = !Boolean(p.pinned);
+      const { data, error } = await pbClient.from('prompts')
+        .update({ pinned: nextPinned, updated_at: nowISO() })
+        .eq('id', p.id)
+        .eq('user_id', state.user.id)
+        .select('id,pinned')
+        .maybeSingle();
+      if (error || !data) {
+        console.error('[PB] Pin error:', error || 'No prompt was updated');
+        toast(error ? 'تعذر تحديث التثبيت: ' + error.message : 'تعذر العثور على البرومبت لتثبيته');
+        return;
+      }
+      p.pinned = data.pinned;
       render();
       toast(p.pinned ? 'تم تثبيت البرومبت' : 'تم إلغاء تثبيت البرومبت');
     })();
