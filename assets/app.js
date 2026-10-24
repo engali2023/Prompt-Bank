@@ -1,7 +1,7 @@
 /*
   Prompt Bank - بنك البرومبتات
   Supabase Integration (Auth + DB + RLS)
-  إصدار مُصلح لتدفق المصادقة (Auth Flow) مع دعم تعطيل تأكيد البريد الإلكتروني
+  إصدار تشخيصي شامل لحل مشكلة عدم دخول الواجهة بعد المصادقة
 */
 
 const PLATFORMS = [
@@ -89,6 +89,7 @@ let pbClient = null;
 
 function initPb() {
   const lib = window.supabase;
+  console.log("[Prompt Bank] window.supabase type:", typeof lib);
   if (!lib) {
     console.error("[Prompt Bank] مكتبة Supabase لم تُحمل");
     document.body.innerHTML =
@@ -96,6 +97,7 @@ function initPb() {
     return false;
   }
   const createClientFn = lib.createClient || (lib.default && lib.default.createClient);
+  console.log("[Prompt Bank] createClient type:", typeof createClientFn);
   if (typeof createClientFn !== "function") {
     console.error("[Prompt Bank] دالة createClient غير موجودة");
     document.body.innerHTML =
@@ -118,6 +120,7 @@ function initPb() {
       window.SUPABASE_CONFIG.anonKey
     );
     console.log("[Prompt Bank] تم تهيئة Supabase بنجاح");
+    console.log("[Prompt Bank] pbClient:", !!pbClient);
 
     // إعداد مستمع تغيير حالة المصادقة فوراً بعد التهيئة
     setupAuthListener();
@@ -142,7 +145,7 @@ const state = {
   filters: { platform: "all", folder: "all", query: "", onlyPinned: false }
 };
 
-/* ===================== UI Elements (تُجلب بعد DOMContentLoaded) ===================== */
+/* ===================== UI Elements ===================== */
 let authScreen, appEl, authForm, authHeading, authSub, authNameGroup, authName, authEmail, authPassword, authSubmitLabel, authSpinner, authError, authErrorText, authTerms, authSwitch;
 let viewRoot, globalSearch, navPromptCount, navResultCount, sidebarFolders, workspaceName, workspaceInitial, sidebarAvatar, sidebarUserName, sidebarUserEmail, modalRoot;
 
@@ -174,12 +177,20 @@ function getUIElements() {
   sidebarUserName = document.getElementById("sidebarUserName");
   sidebarUserEmail = document.getElementById("sidebarUserEmail");
   modalRoot = document.getElementById("modalRoot");
+
+  console.log("[Prompt Bank] تم جلب عناصر واجهة المستخدم:", {
+    authScreen: !!authScreen,
+    appEl: !!appEl,
+    authForm: !!authForm,
+    viewRoot: !!viewRoot
+  });
 }
 
 let authMode = "login";
 
 function setAuthMode(mode) {
   authMode = mode;
+  console.log("[Prompt Bank] تغيير وضع المصادقة إلى:", mode);
   document.querySelectorAll("[data-action='auth-tab']").forEach((b) => {
     const active = b.dataset.mode === mode;
     b.classList.toggle("active", active);
@@ -212,21 +223,72 @@ function setAuthMode(mode) {
 
 /* ===================== دالة إظهار الواجهة الرئيسية بعد تسجيل الدخول ===================== */
 async function showAppAfterAuth() {
-  console.log("[Prompt Bank] نقل المستخدم للواجهة الرئيسية...");
-  state.user = pbClient.auth.session?.user || state.user;
-  if (!state.user) {
-    console.error("[Prompt Bank] لا يوجد مستخدم مصادق");
+  console.log("[Prompt Bank] === بدء showAppAfterAuth ===");
+  console.log("[Prompt Bank] pbClient:", !!pbClient);
+  console.log("[Prompt Bank] state.user:", state.user);
+
+  if (!pbClient) {
+    console.error("[Prompt Bank] pbClient غير مهيأ");
     return;
   }
+
+  // جلب الجلسة الحالية مباشرة من Supabase
+  let sessionUser = state.user;
   try {
-    await loadProfile();
-    await loadData();
+    const { data: { session }, error } = await pbClient.auth.getSession();
+    if (error) {
+      console.error("[Prompt Bank] خطأ في getSession:", error);
+    } else if (session?.user) {
+      sessionUser = session.user;
+      console.log("[Prompt Bank] الجلسة الحالية:", session.user.email);
+    }
   } catch (err) {
-    console.error("[Prompt Bank] خطأ في تحميل البيانات:", err);
+    console.error("[Prompt Bank] استثناء في getSession:", err);
   }
-  if (authScreen) authScreen.hidden = true;
-  if (appEl) appEl.hidden = false;
-  initApp();
+
+  if (!sessionUser) {
+    console.error("[Prompt Bank] لا يوجد مستخدم مصادق بعد showAppAfterAuth");
+    return;
+  }
+
+  state.user = sessionUser;
+  console.log("[Prompt Bank] تم تعيين المستخدم:", state.user.email);
+
+  try {
+    console.log("[Prompt Bank] بدء loadProfile...");
+    await loadProfile();
+    console.log("[Prompt Bank] اكتمل loadProfile:", !!state.profile);
+  } catch (err) {
+    console.error("[Prompt Bank] خطأ في loadProfile:", err);
+  }
+
+  try {
+    console.log("[Prompt Bank] بدء loadData...");
+    await loadData();
+    console.log("[Prompt Bank] اكتمل loadData");
+  } catch (err) {
+    console.error("[Prompt Bank] خطأ في loadData:", err);
+  }
+
+  // إظهار الواجهة الرئيسية وإخفاء شاشة تسجيل الدخول
+  console.log("[Prompt Bank] إظهار الواجهة الرئيسية...");
+  if (authScreen) {
+    authScreen.hidden = true;
+    console.log("[Prompt Bank] authScreen.hidden = true");
+  }
+  if (appEl) {
+    appEl.hidden = false;
+    console.log("[Prompt Bank] appEl.hidden = false");
+  }
+
+  try {
+    initApp();
+    console.log("[Prompt Bank] تم تشغيل initApp");
+  } catch (err) {
+    console.error("[Prompt Bank] خطأ في initApp:", err);
+  }
+
+  console.log("[Prompt Bank] === انتهاء showAppAfterAuth ===");
 }
 
 /* ===================== Auth State Change Listener ===================== */
@@ -241,7 +303,7 @@ function setupAuthListener() {
     console.log(
       "[Prompt Bank] حدث مصادقة:",
       _e,
-      session?.user ? "مُسجل دخول (" + session.user.email + ")" : "تسجيل خروج"
+      session?.user ? "مُسجل دخول (" + session.user.email + ")" : "تسجيل خروج / لا توجد جلسة"
     );
 
     if (session?.user) {
@@ -252,10 +314,12 @@ function setupAuthListener() {
       state.data = { folders: [], prompts: [], results: [] };
       if (authScreen) authScreen.hidden = false;
       if (appEl) appEl.hidden = true;
+      console.log("[Prompt Bank] تم تسجيل الخروج، إظهار شاشة تسجيل الدخول");
     }
   });
 
   // فحص الجلسة الحالية فوراً (للمستخدمين العائدين)
+  console.log("[Prompt Bank] فحص الجلسة الحالية...");
   pbClient.auth.getSession().then(({ data: { session }, error }) => {
     if (error) {
       console.error("[Prompt Bank] خطأ في جلب الجلسة:", error);
@@ -341,23 +405,25 @@ document.addEventListener("click", (e) => {
     return;
   }
 
-  // حساب تجريبي - تسجيل دخول تلقائي بحساب تجريبي
+  // حساب تجريبي - تسجيل دخول تلقائي
   const demo = e.target.closest("[data-action='demo-login']");
   if (demo && pbClient) {
     const demoBtn = demo.querySelector(".demo-badge") || demo;
     const originalText = demoBtn.textContent || "استكشف بحساب تجريبي";
     demoBtn.textContent = "جاري الدخول...";
+    console.log("[Prompt Bank] بدء الدخول التجريبي...");
     try {
       const { error } = await pbClient.auth.signInWithPassword({
         email: "demo@promptbank.com",
         password: "DemoPromptBank123!"
       });
-      if (error) throw error;
+      if (error) {
+        console.log("[Prompt Bank] الحساب التجريبي غير موجود، جاري إنشاؤه...");
+        throw error;
+      }
       toast("تم الدخول بحساب تجريبي");
-      // showAppAfterAuth سيتولى ذلك عبر onAuthStateChange
     } catch (err) {
       console.error("[Prompt Bank] خطأ في الدخول التجريبي:", err);
-      // إذا لم يكن الحساب موجوداً، نحاول إنشاؤه
       try {
         const { error: signUpError } = await pbClient.auth.signUp({
           email: "demo@promptbank.com",
@@ -367,6 +433,7 @@ document.addEventListener("click", (e) => {
         if (signUpError) throw signUpError;
         toast("تم إنشاء الحساب التجريبي، جاري الدخول...");
       } catch (err2) {
+        console.error("[Prompt Bank] فشل إنشاء الحساب التجريبي:", err2);
         toast("فشل الدخول التجريبي: " + (err2.message || "خطأ غير معروف"));
       }
     } finally {
@@ -531,6 +598,7 @@ document.addEventListener("click", (e) => {
 /* ===================== Auth Form ===================== */
 authForm?.addEventListener("submit", async (e) => {
   e.preventDefault();
+  console.log("[Prompt Bank] submitting auth form, mode:", authMode);
   if (!pbClient) {
     toast("الموقع لم يتم تهيئته بعد، يرجى تحديث الصفحة");
     return;
@@ -573,30 +641,40 @@ authForm?.addEventListener("submit", async (e) => {
         if (authSubmitLabel) authSubmitLabel.textContent = "إنشاء الحساب";
         return;
       }
+      console.log("[Prompt Bank] بدء تسجيل حساب جديد:", email);
       const { data, error } = await pbClient.auth.signUp({
         email,
         password: pass,
         options: { data: { full_name: name } }
       });
-      if (error) throw error;
+      if (error) {
+        console.error("[Prompt Bank] خطأ في التسجيل:", error);
+        throw error;
+      }
       if (data.user) {
+        console.log("[Prompt Bank] تم إنشاء المستخدم:", data.user.id);
         await pbClient
           .from("profiles")
           .upsert({ id: data.user.id, email, full_name: name });
-        // مع تعطيل تأكيد البريد الإلكتروني، يتم تسجيل الدخول تلقائياً
-        // علىAuthStateChange سيتولى إظهار الواجهة
         toast("تم إنشاء الحساب بنجاح، جاري الدخول...");
+        // مع تعطيل تأكيد البريد الإلكتروني، يجب أن يتم تسجيل الدخول تلقائياً
+        // علىAuthStateChange سيتولى إظهار الواجهة
       }
     } else {
+      console.log("[Prompt Bank] بدء تسجيل الدخول:", email);
       const { error } = await pbClient.auth.signInWithPassword({
         email,
         password: pass
       });
-      if (error) throw error;
+      if (error) {
+        console.error("[Prompt Bank] خطأ في تسجيل الدخول:", error);
+        throw error;
+      }
       toast("تم تسجيل الدخول بنجاح");
       // علىAuthStateChange سيتولى إظهار الواجهة
     }
   } catch (err) {
+    console.error("[Prompt Bank] استثناء في نموذج المصادقة:", err);
     if (authErrorText) {
       authErrorText.textContent = err.message || "خطأ";
       authError.hidden = false;
@@ -612,17 +690,24 @@ authForm?.addEventListener("submit", async (e) => {
 /* ===================== Data Loading ===================== */
 async function loadProfile() {
   if (!pbClient || !state.user) return;
+  console.log("[Prompt Bank] loadProfile للمستخدم:", state.user.id);
   try {
-    const { data } = await pbClient
+    const { data, error } = await pbClient
       .from("profiles")
       .select("*")
       .eq("id", state.user.id)
       .maybeSingle();
+    if (error) {
+      console.error("[Prompt Bank] خطأ في جلب الملف الشخصي:", error);
+      throw error;
+    }
     if (data) {
       state.profile = data;
+      console.log("[Prompt Bank] تم العثور على الملف الشخصي:", data.full_name);
     } else {
       const name =
         state.user.user_metadata?.full_name || state.user.email.split("@")[0];
+      console.log("[Prompt Bank] لا يوجد ملف شخصي، جاري الإنشاء:", name);
       await pbClient
         .from("profiles")
         .upsert({ id: state.user.id, email: state.user.email, full_name: name });
@@ -632,8 +717,10 @@ async function loadProfile() {
         .eq("id", state.user.id)
         .maybeSingle();
       state.profile = d2;
+      console.log("[Prompt Bank] تم إنشاء الملف الشخصي:", d2?.full_name);
     }
   } catch (e) {
+    console.error("[Prompt Bank] استثناء في loadProfile:", e);
     state.profile = {
       full_name:
         state.user.user_metadata?.full_name || state.user.email.split("@")[0]
@@ -643,6 +730,7 @@ async function loadProfile() {
 
 async function loadData() {
   if (!pbClient || !state.user) return;
+  console.log("[Prompt Bank] loadData للمستخدم:", state.user.id);
   try {
     const [f, p, r] = await Promise.all([
       pbClient.from("folders").select("*").order("created_at", { ascending: true }),
@@ -682,6 +770,7 @@ function initApp() {
   if (sidebarUserName) sidebarUserName.textContent = name;
   if (sidebarUserEmail) sidebarUserEmail.textContent = state.user.email;
   setView("dashboard");
+  console.log("[Prompt Bank] تم إعداد الواجهة باسم:", name);
 }
 
 function setView(v) {
