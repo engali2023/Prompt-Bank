@@ -299,6 +299,22 @@ function bindAuthForm() {
   });
 }
 
+function bindGlobalSearch() {
+  const input = document.getElementById('globalSearch');
+  if (!input) return;
+  input.addEventListener('input', (e) => {
+    state.filters.query = e.target.value.trim();
+    state.view = 'prompts';
+    render();
+  });
+  document.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+      e.preventDefault();
+      input.focus();
+    }
+  });
+}
+
 /* ===================== Global Click Delegation ===================== */
 document.addEventListener('click', (e) => {
   const tab = e.target.closest("[data-action='auth-tab']");
@@ -564,7 +580,7 @@ function renderPrompts() {
   if (state.filters.platform !== 'all') list = list.filter(x => x.platform === state.filters.platform);
   if (state.filters.onlyPinned) list = list.filter(x => x.pinned);
   const q = state.filters.query.trim().toLowerCase();
-  if (q) list = list.filter(x => (x.title + ' ' + x.text).toLowerCase().includes(q));
+  if (q) list = list.filter(x => (x.title + ' ' + x.text + ' ' + (x.tags || []).join(' ')).toLowerCase().includes(q));
   list.sort((a, b) => (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0) || (b.uses || 0) - (a.uses || 0));
 
   const fopts = '<option value="all">كل المجلدات</option>' + state.data.folders.map(f => '<option value="' + f.id + '" ' + (state.filters.folder === f.id ? 'selected' : '') + '>' + escapeHtml(f.name) + '</option>').join('');
@@ -664,6 +680,7 @@ document.addEventListener('DOMContentLoaded', () => {
   console.log('[PB] DOM loaded');
   getElements();
   bindAuthForm();
+  bindGlobalSearch();
   initTheme();
   setAuthMode('login');
   if (authScreen) authScreen.hidden = false;
