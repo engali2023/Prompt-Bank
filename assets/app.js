@@ -15,10 +15,27 @@ const PLATFORMS = [
 const $ = (sel, root = document) => root.querySelector(sel);
 const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 
-const supabase = window.supabase.createClient(
-  window.SUPABASE_CONFIG.url,
-  window.SUPABASE_CONFIG.anonKey
-);
+function initSupabase() {
+  if (typeof window.supabase === "undefined") {
+    document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100dvh;text-align:center;padding:24px;font-family:IBM Plex Sans Arabic, sans-serif;direction:rtl"><div><h1 style="margin:0 0 12px">خطأ في تحميل مكتبة Supabase</h1><p style="margin:0;color:#666">تعذر تحميل سكريبت @supabase/supabase-js</p></div></div>';
+    return null;
+  }
+  if (!window.SUPABASE_CONFIG || !window.SUPABASE_CONFIG.url || !window.SUPABASE_CONFIG.anonKey) {
+    document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100dvh;text-align:center;padding:24px;font-family:IBM Plex Sans Arabic, sans-serif;direction:rtl"><div><h1 style="margin:0 0 12px">خطأ في ملف الإعدادات</h1><p style="margin:0;color:#666">لم يتم العثور على <code>assets/config.js</code> أو مفاتيح Supabase مفقودة</p></div></div>';
+    return null;
+  }
+  try {
+    return window.supabase.createClient(window.SUPABASE_CONFIG.url, window.SUPABASE_CONFIG.anonKey);
+  } catch (e) {
+    document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100dvh;text-align:center;padding:24px;font-family:IBM Plex Sans Arabic, sans-serif;direction:rtl"><div><h1 style="margin:0 0 12px">خطأ في تهيئة Supabase</h1><p style="margin:0;color:#666">'+escapeHtml(e.message)+'</p></div></div>';
+    return null;
+  }
+}
+const supabase = initSupabase();
+if (!supabase) {
+  // توقف التنفيذ إن فشل التهيئة
+  throw new Error("supabase init failed");
+}
 
 const state = {
   user: null,
